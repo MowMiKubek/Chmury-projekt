@@ -1,7 +1,7 @@
 # Chmury-projekt
 Aplikacja do porównywania rekordów osobistych speedcuberów
 
-Radosław Przerwa Tomczyk: frontend
+Radosław Tomczyk: frontend
 Jakub Maciej Tkaczyk: backend
 
 1. Skonfigurowanie środowiska docker compose i repozytorium
