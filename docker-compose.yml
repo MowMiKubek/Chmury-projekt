@@ -1,0 +1,34 @@
+version: '3'
+services:
+  api-server:
+    image: node:16
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.back
+    command: npm start
+    ports:
+      - '5000:5000'
+    networks:
+      - my_network
+    depends_on:
+      - 'mongodb'
+  mongodb:
+    image: mongo:6-jammy
+    restart: always
+    #environment:
+      #MONGO_INITDB_ROOT_USERNAME: admin
+      #MONGO_INITDB_ROOT_PASSWORD: NAA3UIUX08MQFHXX
+      #MONGO_INITDB_NAME_DATABASE: StudentDB
+        #build:
+        #context: ./baza
+        #dockerfile: Dockerfile
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - my_network
+volumes:
+  dbdata:
+networks:
+  my_network:
