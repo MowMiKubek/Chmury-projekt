@@ -29,6 +29,9 @@ W środowisku Compose została uruchomiona testowa aplikacja napisana z wykorzys
 - api-server: serwer NodeJS pełniący rolę RESTful API. Podczas budowania najpierw instalowane są potrzebne moduły, a następnie server node jest uruchamiany
 - mongodb: baza danych mongo, w której przechowywane są dane użytkowników z testowej aplikacji
 
+Uwaga. Ze względów bezpieczeństwa plik ze zmiennymi środowiskowymi nie jest przechowywany w repozytorium. Do cześci backend należy dodać plik .env (uzupełniony na podstawie .env-template)
+
+
 ### Problemy:
 - frontend: 
     - kompilacja aplikacja react w Dockerfile (rozwiązany)
