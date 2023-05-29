@@ -32,6 +32,7 @@ W środowisku Compose została uruchomiona testowa aplikacja napisana z wykorzys
 ### Problemy:
 - frontend: 
     - kompilacja aplikacja react w Dockerfile (rozwiązany)
+    - zmiana, konfiguracja serwera (localhost, rozwiązany)
 - backend: 
     - problem z instalacją node_modules z poziomu docker_compose (rozwiązany)
     - połączenie z bazą danych (rozwiązany)
