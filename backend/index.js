@@ -1,25 +1,36 @@
 import express from 'express'
-import cors from 'cors'
 import dotenv from 'dotenv'
-import database from './app/database/db.js'
-import authRoute from './app/routes/authRoute.js'
-import userRoute from './app/routes/userRoute.js'
+import axios from 'axios'
+import cors from 'cors'
 
-const config = dotenv.config().parsed
-const PORT = config.PORT || 8080
+dotenv.config()
+const { PORT } = process.env
+
 const app = express()
 
-// middleware
+// middleware 
 app.use(express.json())
 app.use(cors())
-
-// routes
-app.use('/api/auth', authRoute)
-app.use('/api/users', userRoute)
-
-// database
-database()
+// basic route
+app.get('/api/:wcaid', async (req, res) => {
+    const {wcaid} = req.params;
+    console.log(wcaid)
+    try{
+        const response = await axios.get(`https://www.worldcubeassociation.org/api/v0/persons/${wcaid}`)
+        const data = await response.data
+        res.json({person: data.person, personal_records: data.personal_records});
+        // console.log(data)
+    } catch (error) {
+        console.log("An error uccured");
+        if(error.response) {
+            // console.log(error.response.status)
+            res.sendStatus(error.response.status)
+        } else {
+            res.sendStatus(500);
+        }
+    }
+})
 
 app.listen(PORT, () => {
-    console.log(`Backend serwer listeninig on port ${PORT}`)
+    console.log(`Application listens on port ${PORT}`)
 })

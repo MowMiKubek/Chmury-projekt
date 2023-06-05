@@ -1,0 +1,69 @@
+Generalnie działa to tak. Wysyłasz żądanie GET na adres: 
+http://localhost:5000/api/WCAID
+
+zamiast WCAID dajesz coś w stylu: 2015TKAC02, 2013ROGA01, itd
+
+Dostajesz albo status 200, albo 404.
+
+Jak dostaniesz 200 to w body masz 2 obiekty: person (gdzie jest imie, nazwisko, avatar itd) i personal_records.
+Na poniższym przykładzie omówimy to drugie
+
+Każdy klucz reprezentuje jakąś kostkę (222 - 2x2x2, 333 - 3x3x3, 333bf - 3x3 bez patrzenia itd)
+dzieli się to na 2 sekcje, single i average (nas bardziej średnia interesuje)
+
+best - czas wyrażony w jednostkach 10ms
+przykładowo 361 oznacza 3,61s
+world/contitent/country_rank - miejsce w regionie
+
+Klucze konkurencji masz takie:
+222 - 2x2
+333 - 3x3
+333bf - 3x3 bez patrzenia
+333fm - 3x3 najmniejszą liczbą ruchów
+333mbf - 3x3 wiele kostek bez patrzenia
+333oh - 3x3 jedną ręką
+444 -4x4
+444bf - 4x4 bez patrzenia
+555 - 5x5
+555bf - 5x5 bez patrzenia
+666 - 6x6
+777 - 7x7
+clock - clock
+minx - megaminx
+pyram - pyraminx
+skewb - skewb
+sq1 - square-1
+
+Uwaga. Jak przychodzi Ci obiekt z danymi to nie zawsze on będzie miał wszystkie te klucze. Jak nie ma jakiegoś klucza uznajemy, że dana osoba nie brała udziału w tej konkurencji
+
+"personal_records": {
+        "222": {
+            "single": {
+                "best": 182,
+                "world_rank": 3141,
+                "continent_rank": 1168,
+                "country_rank": 167
+            },
+            "average": {
+                "best": 361,
+                "world_rank": 4602,
+                "continent_rank": 1537,
+                "country_rank": 220
+            }
+        },
+        "333": {
+            "single": {
+                "best": 777,
+                "world_rank": 2905,
+                "continent_rank": 888,
+                "country_rank": 126
+            },
+            "average": {
+                "best": 973,
+                "world_rank": 3119,
+                "continent_rank": 919,
+                "country_rank": 131
+            }
+        },
+        ...
+}
