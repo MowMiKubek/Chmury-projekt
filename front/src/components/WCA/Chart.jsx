@@ -14,6 +14,7 @@ const Chart = (props) => {
         "666": 18267,
         "777": 26431,
         "clock": 1594,
+        "minx": 9766,
         "magic": 273,
         "mmagic": 535,
         "pyram": 1156,
@@ -33,6 +34,7 @@ const Chart = (props) => {
         "666": 6856,
         "777": 10212,
         "clock": 356,
+        "minx": 2734,
         "magic": 76,
         "mmagic": 2803,
         "pyram": 155,
@@ -42,31 +44,39 @@ const Chart = (props) => {
     const calcPoints = (key, time) => {
         console.log(srednie[key])
         if(time < srednie[key]) {
-            return 50 + 50 * (srednie[key] - time) / (srednie[key] - wr[key])
+            const result = 50 + 50 * (srednie[key] - time) / (srednie[key] - wr[key])
+            return result
         } else {
-            return 10 + 40 * time / srednie[key]
+            const result = 10 + 40 * time / srednie[key]
+            return result
         }
     }
-    // const inputData1 = props.player1Data.personal_records
-    // const inputData2 = props.player2Data.personal_records
-    // const commonKeys = Object.keys(inputData1).filter(key => inputData2.hasOwnProperty(key))
-    // var transformedData = []
-    // for(key of commonKeys) {
-    //     const player1time = inputData1.hasOwnProperty(key) ? calcPoints(key, inputData1[key]) : 10
-    //     const player2time = inputData2.hasOwnProperty(key) ? calcPoints(key, inputData2[key]) : 10
-    //     transformedData.push({
-    //         event: key,
-    //         player1: player1time,
-    //         player2: player2time
-    //     })
-    // }
-    const transformedData = [
-        {event: "222", player1: calcPoints("222", 123), player2: calcPoints("222", 321)},
-        {event: "333", player1: calcPoints("333", 1232), player2: calcPoints("333", 3213)},
-        {event: "444", player1: calcPoints("444", 3333), player2: calcPoints("444", 5555)},
-        {event: "555", player1: calcPoints("555", 12333), player2: calcPoints("555", 14763)},
-    ]
-    console.log(transformedData)
+    const inputData1 = props.player1Data.personal_records
+    const inputData2 = props.player2Data.personal_records
+
+    const keys1 = Object.keys(inputData1)
+    const keys2 = Object.keys(inputData2)
+    const commonKeys = [...keys1,
+         ...keys2.filter(key => !keys1.includes(key))]
+         .filter(key => !key.includes("bf"))
+         .filter(key => !key.includes("fm"))
+    var transformedData = []
+    for(var key of commonKeys) {
+        let player1Points, player2Points;
+        if(inputData1.hasOwnProperty(key) && inputData1[key].average?.best)
+            player1Points = inputData1.hasOwnProperty(key) ? calcPoints(key, inputData1[key].average.best) : 10
+        else
+            player1Points = 10
+        if(inputData2.hasOwnProperty(key) && inputData2[key].average?.best)
+            player2Points = inputData2.hasOwnProperty(key) ? calcPoints(key, inputData2[key].average.best) : 10
+        else
+            player2Points = 10
+        transformedData.push({
+            event: key,
+            player1: player1Points,
+            player2: player2Points
+        })
+    }
     return (
         <div className='wcachart'>
             <ResponsiveContainer width="100%" height={400}>
