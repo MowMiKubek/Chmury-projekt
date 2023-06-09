@@ -1,4 +1,5 @@
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import styles from "./styles.module.css";
 
 const Chart = (props) => {
     const srednie = {
@@ -43,7 +44,7 @@ const Chart = (props) => {
     }
     const calcPoints = (key, time) => {
         console.log(srednie[key])
-        if(time < srednie[key]) {
+        if (time < srednie[key]) {
             const result = 50 + 50 * (srednie[key] - time) / (srednie[key] - wr[key])
             return result
         } else {
@@ -53,21 +54,23 @@ const Chart = (props) => {
     }
     const inputData1 = props.player1Data.personal_records
     const inputData2 = props.player2Data.personal_records
+    console.log(props.player1Data)
+    console.log(props.player2Data)
 
     const keys1 = Object.keys(inputData1)
     const keys2 = Object.keys(inputData2)
     const commonKeys = [...keys1,
-         ...keys2.filter(key => !keys1.includes(key))]
-         .filter(key => !key.includes("bf"))
-         .filter(key => !key.includes("fm"))
+    ...keys2.filter(key => !keys1.includes(key))]
+        .filter(key => !key.includes("bf"))
+        .filter(key => !key.includes("fm"))
     var transformedData = []
-    for(var key of commonKeys) {
+    for (var key of commonKeys) {
         let player1Points, player2Points;
-        if(inputData1.hasOwnProperty(key) && inputData1[key].average?.best)
+        if (inputData1.hasOwnProperty(key) && inputData1[key].average?.best)
             player1Points = inputData1.hasOwnProperty(key) ? calcPoints(key, inputData1[key].average.best) : 10
         else
             player1Points = 10
-        if(inputData2.hasOwnProperty(key) && inputData2[key].average?.best)
+        if (inputData2.hasOwnProperty(key) && inputData2[key].average?.best)
             player2Points = inputData2.hasOwnProperty(key) ? calcPoints(key, inputData2[key].average.best) : 10
         else
             player2Points = 10
@@ -79,6 +82,26 @@ const Chart = (props) => {
     }
     return (
         <div className='wcachart'>
+            <div className={styles.players_info}>
+                <div className={styles.single_player_info}>
+                    <div className={styles.background_image} style={{ backgroundImage: `url(${props.player1Data.person.avatar.url})` }}></div>
+                    <div className={styles.overlay}></div>
+                    <h2>Player 1 Info:</h2>
+                    <p>Player 1 ID: {props.player1Id}</p>
+                    <p>Name: {props.player1Data.person.name}</p>
+                    <p>Country: {props.player1Data.person.country.id}</p>
+                </div>
+
+                <div className={styles.single_player_info}>
+                    <div className={styles.background_image} style={{ backgroundImage: `url(${props.player2Data.person.avatar.url})` }}></div>
+                    <div className={styles.overlay}></div>
+                    <h2>Player 2 Info:</h2>
+                    <p>Player 2 ID: {props.player2Id}</p>
+                    <p>Name: {props.player2Data.person.name}</p>
+                    <p>Country: {props.player2Data.person.country.id}</p>
+                </div>
+            </div>
+
             <ResponsiveContainer width="100%" height={400}>
                 <RadarChart data={transformedData}>
                     <PolarGrid />
@@ -103,21 +126,7 @@ const Chart = (props) => {
                 </RadarChart>
             </ResponsiveContainer>
 
-            <div >
-                <h2>Player 1 Info:</h2>
-                <p>Player 1 ID: {props.player1Id}</p>
-                <p>Name: {props.player1Data.name}</p>
-                <p>Position: {props.player1Data.position}</p>
-                <p>Age: {props.player1Data.age}</p>
-            </div>
 
-            <div >
-                <h2>Player 2 Info:</h2>
-                <p>Player 2 ID: {props.player2Id}</p>
-                <p>Name: {props.player2Data.name}</p>
-                <p>Position: {props.player2Data.position}</p>
-                <p>Age: {props.player2Data.age}</p>
-            </div>
         </div>
     )
 }
